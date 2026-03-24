@@ -1,0 +1,358 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+grid-list.tsx
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle,
+  ContactRound,
+  Hand,
+  Server,
+  UserCircle,
+} from "lucide-react";
+
+const actions = [
+  {
+    title: "Getting Started",
+    description:
+      "Everything you need to know to get started and get to work in ChatCloud.",
+    href: "#",
+    icon: ArrowRight,
+    iconForeground: "text-green-700",
+    iconBackground: "bg-green-50 dark:bg-green-950/30",
+    ringColorClass: "ring-green-700/30",
+  },
+  {
+    title: "Admin Settings",
+    description:
+      "Learn how to manage your current workspace or your enterprise space.",
+    href: "#",
+    icon: UserCircle,
+    iconForeground: "text-red-700",
+    iconBackground: "bg-red-50 dark:bg-red-950/30",
+    ringColorClass: "ring-red-700/30",
+  },
+  {
+    title: "Server Setup",
+    description:
+      "Connect, simplify, and automate. Discover the power of apps and tools.",
+    href: "#",
+    icon: Server,
+    iconForeground: "text-blue-700",
+    iconBackground: "bg-blue-50 dark:bg-blue-950/30",
+    ringColorClass: "ring-blue-700/30",
+  },
+  {
+    title: "Login and Verification",
+    description:
+      "Read on to learn how to sign in with your email address, or your Apple or Google.",
+    href: "#",
+    icon: CheckCircle,
+    iconForeground: "text-sky-700",
+    iconBackground: "bg-sky-50 dark:bg-sky-950/30",
+    ringColorClass: "ring-sky-700/30",
+  },
+  {
+    title: "Account Setup",
+    description:
+      "Adjust your profile and preferences to make ChatCloud work just for you.",
+    href: "#",
+    icon: ContactRound,
+    iconForeground: "text-pink-700",
+    iconBackground: "bg-pink-50 dark:bg-pink-950/30",
+    ringColorClass: "ring-pink-700/30",
+  },
+  {
+    title: "Trust & Safety",
+    description:
+      "Trust on our current database and learn how we distribute your data.",
+    href: "#",
+    icon: Hand,
+    iconForeground: "text-orange-700",
+    iconBackground: "bg-orange-50 dark:bg-orange-950/30",
+    ringColorClass: "ring-orange-700/30",
+  },
+];
+
+export default function GridList03() {
+  return (
+    <div className="flex items-center justify-center p-8">
+      <div className="overflow-hidden rounded-[1rem] bg-muted shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-0.5 space-y-0.5 sm:space-y-0 p-0.5">
+        {actions.map((action) => (
+          <Card
+            key={action.title}
+            className={cn(
+              "group relative rounded-xl border-0 bg-card p-0 focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset"
+            )}
+          >
+            <CardContent className="p-6">
+              <div>
+                <span
+                  className={cn(
+                    action.iconBackground,
+                    action.iconForeground,
+                    "inline-flex rounded-lg p-3 ring-2 ring-inset",
+                    action.ringColorClass
+                  )}
+                >
+                  <action.icon aria-hidden="true" className="h-6 w-6" />
+                </span>
+              </div>
+              <div className="mt-4">
+                <h3 className="text-base font-semibold text-foreground">
+                  <a href={action.href} className="focus:outline-none">
+                    <span aria-hidden="true" className="absolute inset-0" />
+                    {action.title}
+                  </a>
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {action.description}
+                </p>
+              </div>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute top-6 right-6 text-muted-foreground/50 group-hover:text-muted-foreground/60"
+              >
+                <ArrowUpRight className="h-6 w-6" />
+              </span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+code.demo.1753208610912.tsx
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+
+const people = [
+  {
+    name: "Timur Ercan",
+    email: "timur@documenso.com",
+    role: "Co-Founder / CEO",
+    imageUrl: "https://blocks.so/avatar-02.png",
+  },
+  {
+    name: "Lucas Smith",
+    email: "lucas@documenso.com",
+    role: "Co-Founder / CTO",
+    imageUrl: "https://blocks.so/avatar-03.png",
+  },
+  {
+    name: "Ephraim Duncan",
+    email: "ephraim@documenso.com",
+    role: "Software Engineer",
+    imageUrl: "https://blocks.so/avatar-01.png",
+  },
+  {
+    name: "Catalin Pit",
+    email: "catalin@documenso.com",
+    role: "Software Engineer",
+    imageUrl: "https://blocks.so/avatar-04.png",
+  },
+];
+
+export default function GridList02() {
+  return (
+    <div className="flex items-center justify-center p-8">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {people.map((person) => (
+          <Card
+            key={person.email}
+            className="relative border transition-all duration-100 hover:border-muted-foreground hover:shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 py-0"
+          >
+            <CardContent className="flex items-center space-x-4 p-4">
+              <Avatar className="h-10 w-10">
+                <AvatarImage src={person.imageUrl} alt={person.name} />
+                <AvatarFallback>{person.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <div className="min-w-0 flex-1">
+                <a href="#" className="focus:outline-none">
+                  <span aria-hidden="true" className="absolute inset-0" />
+                  <p className="text-sm font-medium text-foreground">
+                    {person.name}
+                  </p>
+                  <p className="truncate text-sm text-muted-foreground">
+                    {person.role}
+                  </p>
+                </a>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/grid-list.tsx
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle,
+  ContactRound,
+  Hand,
+  Server,
+  UserCircle,
+} from "lucide-react";
+
+const actions = [
+  {
+    title: "Getting Started",
+    description:
+      "Everything you need to know to get started and get to work in ChatCloud.",
+    href: "#",
+    icon: ArrowRight,
+    iconForeground: "text-green-700",
+    iconBackground: "bg-green-50 dark:bg-green-950/30",
+    ringColorClass: "ring-green-700/30",
+  },
+  {
+    title: "Admin Settings",
+    description:
+      "Learn how to manage your current workspace or your enterprise space.",
+    href: "#",
+    icon: UserCircle,
+    iconForeground: "text-red-700",
+    iconBackground: "bg-red-50 dark:bg-red-950/30",
+    ringColorClass: "ring-red-700/30",
+  },
+  {
+    title: "Server Setup",
+    description:
+      "Connect, simplify, and automate. Discover the power of apps and tools.",
+    href: "#",
+    icon: Server,
+    iconForeground: "text-blue-700",
+    iconBackground: "bg-blue-50 dark:bg-blue-950/30",
+    ringColorClass: "ring-blue-700/30",
+  },
+  {
+    title: "Login and Verification",
+    description:
+      "Read on to learn how to sign in with your email address, or your Apple or Google.",
+    href: "#",
+    icon: CheckCircle,
+    iconForeground: "text-sky-700",
+    iconBackground: "bg-sky-50 dark:bg-sky-950/30",
+    ringColorClass: "ring-sky-700/30",
+  },
+  {
+    title: "Account Setup",
+    description:
+      "Adjust your profile and preferences to make ChatCloud work just for you.",
+    href: "#",
+    icon: ContactRound,
+    iconForeground: "text-pink-700",
+    iconBackground: "bg-pink-50 dark:bg-pink-950/30",
+    ringColorClass: "ring-pink-700/30",
+  },
+  {
+    title: "Trust & Safety",
+    description:
+      "Trust on our current database and learn how we distribute your data.",
+    href: "#",
+    icon: Hand,
+    iconForeground: "text-orange-700",
+    iconBackground: "bg-orange-50 dark:bg-orange-950/30",
+    ringColorClass: "ring-orange-700/30",
+  },
+];
+
+export default function GridList03() {
+  return (
+    <div className="flex items-center justify-center p-8">
+      <div className="overflow-hidden rounded-[1rem] bg-muted shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-0.5 space-y-0.5 sm:space-y-0 p-0.5">
+        {actions.map((action) => (
+          <Card
+            key={action.title}
+            className={cn(
+              "group relative rounded-xl border-0 bg-card p-0 focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset"
+            )}
+          >
+            <CardContent className="p-6">
+              <div>
+                <span
+                  className={cn(
+                    action.iconBackground,
+                    action.iconForeground,
+                    "inline-flex rounded-lg p-3 ring-2 ring-inset",
+                    action.ringColorClass
+                  )}
+                >
+                  <action.icon aria-hidden="true" className="h-6 w-6" />
+                </span>
+              </div>
+              <div className="mt-4">
+                <h3 className="text-base font-semibold text-foreground">
+                  <a href={action.href} className="focus:outline-none">
+                    <span aria-hidden="true" className="absolute inset-0" />
+                    {action.title}
+                  </a>
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {action.description}
+                </p>
+              </div>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute top-6 right-6 text-muted-foreground/50 group-hover:text-muted-foreground/60"
+              >
+                <ArrowUpRight className="h-6 w-6" />
+              </span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+```
+
+Install NPM dependencies:
+```bash
+lucide-react
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

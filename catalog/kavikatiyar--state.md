@@ -1,0 +1,295 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+state.tsx
+import * as React from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button"; // Assuming shadcn button is in this path
+
+// Define the types for the component props for type-safety and clarity
+interface ActionProps {
+  text: string;
+  onClick: () => void;
+  icon?: React.ReactNode;
+}
+
+interface MailboxFullStateProps {
+  imageUrl: string;
+  title: string;
+  description: string;
+  primaryAction: ActionProps;
+  secondaryAction: ActionProps;
+}
+
+/**
+ * A reusable component to display a "full state" or promotional message.
+ * It includes an image, title, description, and two call-to-action buttons.
+ * Features subtle entry animations for a polished user experience.
+ */
+export const MailboxFullState = ({
+  imageUrl,
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+}: MailboxFullStateProps) => {
+
+  // Animation variants for the container and its children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
+
+  return (
+    <motion.div
+      className="flex w-full max-w-md flex-col items-center justify-center rounded-lg border bg-card p-8 text-center"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      aria-labelledby="state-title"
+    >
+      {/* Image section */}
+      <motion.img
+        src={imageUrl}
+        alt="Mailbox illustration"
+        className="mb-6 h-40 w-40 object-contain"
+        variants={itemVariants}
+      />
+
+      {/* Text content section */}
+      <motion.h2
+        id="state-title"
+        className="text-2xl font-semibold text-card-foreground"
+        variants={itemVariants}
+      >
+        {title}
+      </motion.h2>
+
+      <motion.p
+        className="mt-2 text-muted-foreground"
+        variants={itemVariants}
+      >
+        {description}
+      </motion.p>
+
+      {/* Action buttons section */}
+      <motion.div
+        className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:justify-center"
+        variants={itemVariants}
+      >
+        <Button
+          variant="outline"
+          className="w-full sm:w-auto"
+          onClick={secondaryAction.onClick}
+        >
+          {secondaryAction.text}
+        </Button>
+        <Button
+          className="w-full sm:w-auto"
+          onClick={primaryAction.onClick}
+        >
+          {primaryAction.icon && <span className="mr-2 h-4 w-4">{primaryAction.icon}</span>}
+          {primaryAction.text}
+        </Button>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+code.demo.1759325745215.tsx
+import { MailboxFullState } from "@/components/ui/state"; // Adjust the import path
+import { Rocket } from "lucide-react";
+
+/**
+ * Demo component to showcase the MailboxFullState.
+ */
+export default function MailboxFullStateDemo() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-background p-4">
+      <MailboxFullState
+        imageUrl="https://www.thiings.co/_next/image?url=https%3A%2F%2Flftz25oez4aqbxpq.public.blob.vercel-storage.com%2Fimage-WYuC7gUQSKvGrmWIMI6NB1Ec64dbEv.png&w=1000&q=75"
+        title="Your mail is full"
+        description="You have hit your storage limit. Clear out a few messages or upgrade your plan so you never miss a thing."
+        secondaryAction={{
+          text: "Manage Storage",
+          onClick: () => console.log("Manage Storage clicked"),
+        }}
+        primaryAction={{
+          text: "Upgrade Mail",
+          onClick: () => console.log("Upgrade Mail clicked"),
+          icon: <Rocket className="h-4 w-4" />,
+        }}
+      />
+    </div>
+  );
+}
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/state.tsx
+import * as React from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button"; // Assuming shadcn button is in this path
+
+// Define the types for the component props for type-safety and clarity
+interface ActionProps {
+  text: string;
+  onClick: () => void;
+  icon?: React.ReactNode;
+}
+
+interface MailboxFullStateProps {
+  imageUrl: string;
+  title: string;
+  description: string;
+  primaryAction: ActionProps;
+  secondaryAction: ActionProps;
+}
+
+/**
+ * A reusable component to display a "full state" or promotional message.
+ * It includes an image, title, description, and two call-to-action buttons.
+ * Features subtle entry animations for a polished user experience.
+ */
+export const MailboxFullState = ({
+  imageUrl,
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+}: MailboxFullStateProps) => {
+
+  // Animation variants for the container and its children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
+
+  return (
+    <motion.div
+      className="flex w-full max-w-md flex-col items-center justify-center rounded-lg border bg-card p-8 text-center"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      aria-labelledby="state-title"
+    >
+      {/* Image section */}
+      <motion.img
+        src={imageUrl}
+        alt="Mailbox illustration"
+        className="mb-6 h-40 w-40 object-contain"
+        variants={itemVariants}
+      />
+
+      {/* Text content section */}
+      <motion.h2
+        id="state-title"
+        className="text-2xl font-semibold text-card-foreground"
+        variants={itemVariants}
+      >
+        {title}
+      </motion.h2>
+
+      <motion.p
+        className="mt-2 text-muted-foreground"
+        variants={itemVariants}
+      >
+        {description}
+      </motion.p>
+
+      {/* Action buttons section */}
+      <motion.div
+        className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:justify-center"
+        variants={itemVariants}
+      >
+        <Button
+          variant="outline"
+          className="w-full sm:w-auto"
+          onClick={secondaryAction.onClick}
+        >
+          {secondaryAction.text}
+        </Button>
+        <Button
+          className="w-full sm:w-auto"
+          onClick={primaryAction.onClick}
+        >
+          {primaryAction.icon && <span className="mr-2 h-4 w-4">{primaryAction.icon}</span>}
+          {primaryAction.text}
+        </Button>
+      </motion.div>
+    </motion.div>
+  );
+};
+```
+
+Install NPM dependencies:
+```bash
+framer-motion
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

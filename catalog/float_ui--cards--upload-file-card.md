@@ -1,0 +1,197 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+cards.tsx
+const members = [
+    {
+        avatar: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
+        name: "John lorin",
+        email: "john@example.com"
+    },
+    {
+        avatar: "https://randomuser.me/api/portraits/men/86.jpg",
+        name: "Chris bondi",
+        email: "chridbondi@example.com"
+    },
+    {
+        avatar: "https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
+        name: "yasmine",
+        email: "yasmine@example.com"
+    },
+    {
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=a72ca28288878f8404a795f39642a46f",
+        name: "Joseph",
+        email: "joseph@example.com"
+    },
+]
+
+export default function Cards() {
+    return (
+        <div className="max-w-2xl mx-auto px-4">
+            <div className="items-start justify-between sm:flex">
+                <div>
+                    <h4 className="text-gray-800 text-xl font-semibold">Team members</h4>
+                    <p className="mt-2 text-gray-600 text-base sm:text-sm">
+                        Give your team members access to manage the system.
+                    </p>
+                </div>
+                <button
+                    type="button"
+                    className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg sm:mt-0"
+                    onClick={() => alert("Add new member")}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                        viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 
+                        className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    New member
+                </button>
+            </div>
+
+            <ul className="mt-12 divide-y">
+                {members.map((item, idx) => (
+                    <li key={idx} className="py-5 flex items-start justify-between">
+                        <div className="flex gap-3">
+                            <img src={item.avatar} className="flex-none w-12 h-12 rounded-full" />
+                            <div>
+                                <span className="block text-sm text-gray-700 font-semibold">{item.name}</span>
+                                <span className="block text-sm text-gray-600">{item.email}</span>
+                            </div>
+                        </div>
+                        <button
+                            type="button"
+                            className="text-gray-700 text-sm border rounded-lg px-3 py-2 duration-150 bg-white hover:bg-gray-100"
+                            onClick={() => alert(`Manage ${item.name}`)}
+                        >
+                            Manage
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
+
+code.demo.1755827337302.tsx
+export default function Cards ()  {
+    return (
+        <div className="max-w-md h-40 rounded-lg border-2 border-dashed flex items-center justify-center">
+            <label htmlFor="file" className="cursor-pointer text-center p-4 md:p-8">
+                <svg className="w-10 h-10 mx-auto" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.1667 26.6667C8.48477 26.6667 5.5 23.6819 5.5 20C5.5 16.8216 7.72428 14.1627 10.7012 13.4949C10.5695 12.9066 10.5 12.2947 10.5 11.6667C10.5 7.0643 14.231 3.33334 18.8333 3.33334C22.8655 3.33334 26.2288 6.19709 27.0003 10.0016C27.0556 10.0006 27.1111 10 27.1667 10C31.769 10 35.5 13.731 35.5 18.3333C35.5 22.3649 32.6371 25.7279 28.8333 26.5M25.5 21.6667L20.5 16.6667M20.5 16.6667L15.5 21.6667M20.5 16.6667L20.5 36.6667" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p className="mt-3 text-gray-700 max-w-xs mx-auto">Click to <span className="font-medium text-indigo-600">Upload your  file</span> or drag and drop your file here</p>
+            </label>
+            <input id="file" type="file" className="hidden" />
+        </div>
+    )
+}
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/cards.tsx
+const members = [
+    {
+        avatar: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
+        name: "John lorin",
+        email: "john@example.com"
+    },
+    {
+        avatar: "https://randomuser.me/api/portraits/men/86.jpg",
+        name: "Chris bondi",
+        email: "chridbondi@example.com"
+    },
+    {
+        avatar: "https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
+        name: "yasmine",
+        email: "yasmine@example.com"
+    },
+    {
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=a72ca28288878f8404a795f39642a46f",
+        name: "Joseph",
+        email: "joseph@example.com"
+    },
+]
+
+export default function Cards() {
+    return (
+        <div className="max-w-2xl mx-auto px-4">
+            <div className="items-start justify-between sm:flex">
+                <div>
+                    <h4 className="text-gray-800 text-xl font-semibold">Team members</h4>
+                    <p className="mt-2 text-gray-600 text-base sm:text-sm">
+                        Give your team members access to manage the system.
+                    </p>
+                </div>
+                <button
+                    type="button"
+                    className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg sm:mt-0"
+                    onClick={() => alert("Add new member")}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                        viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 
+                        className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    New member
+                </button>
+            </div>
+
+            <ul className="mt-12 divide-y">
+                {members.map((item, idx) => (
+                    <li key={idx} className="py-5 flex items-start justify-between">
+                        <div className="flex gap-3">
+                            <img src={item.avatar} className="flex-none w-12 h-12 rounded-full" />
+                            <div>
+                                <span className="block text-sm text-gray-700 font-semibold">{item.name}</span>
+                                <span className="block text-sm text-gray-600">{item.email}</span>
+                            </div>
+                        </div>
+                        <button
+                            type="button"
+                            className="text-gray-700 text-sm border rounded-lg px-3 py-2 duration-150 bg-white hover:bg-gray-100"
+                            onClick={() => alert(`Manage ${item.name}`)}
+                        >
+                            Manage
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

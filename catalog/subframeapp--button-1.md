@@ -1,0 +1,476 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+button-1.tsx
+"use client";
+
+import * as React from "react";
+import * as SubframeCore from "@subframe/core";
+
+/**
+ * IMPORTANT: Local SubframeUtils lives INSIDE this component file.
+ * Provides createTwClassNames() and twClassNames instance.
+ */
+namespace SubframeUtils {
+  export type ClassValue =
+    | string
+    | null
+    | undefined
+    | false
+    | Record<string, boolean>;
+
+  export function createTwClassNames() {
+    return (...classes: ClassValue[]) =>
+      classes
+        .flatMap((c) => {
+          if (!c) return [];
+          if (typeof c === "string") return [c];
+          return Object.entries(c)
+            .filter(([, ok]) => !!ok)
+            .map(([k]) => k);
+        })
+        .join(" ");
+  }
+
+  export const twClassNames = createTwClassNames();
+}
+
+/* -------------------- Types -------------------- */
+
+export interface ComponentProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?:
+    | "brand-primary"
+    | "brand-secondary"
+    | "brand-tertiary"
+    | "neutral-primary"
+    | "neutral-secondary"
+    | "neutral-tertiary"
+    | "destructive-primary"
+    | "destructive-secondary"
+    | "destructive-tertiary"
+    | "inverse";
+  size?: "large" | "medium" | "small";
+  children?: React.ReactNode;
+  icon?: React.ReactNode;
+  iconRight?: React.ReactNode;
+  loading?: boolean;
+}
+
+/* -------------------- Variant B (self-contained Tailwind colors) -------------------- */
+
+const VARIANT_BASE =
+  "inline-flex items-center justify-center gap-2 rounded-md px-3 border transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+
+const VARIANT_STYLES: Record<
+  NonNullable<ComponentProps["variant"]>,
+  string
+> = {
+  // Brand
+  "brand-primary":
+    "h-8 border-transparent bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-600 focus:ring-indigo-500",
+  "brand-secondary":
+    "h-8 border-transparent bg-indigo-50 text-indigo-700 hover:bg-indigo-100 active:bg-indigo-50 focus:ring-indigo-300",
+  "brand-tertiary":
+    "h-8 border-transparent bg-transparent text-indigo-700 hover:bg-indigo-50 active:bg-indigo-100 focus:ring-indigo-300",
+
+  // Neutral
+  "neutral-primary":
+    "h-8 border-transparent bg-zinc-100 text-zinc-700 hover:bg-zinc-200 active:bg-zinc-100 focus:ring-zinc-400",
+  "neutral-secondary":
+    "h-8 border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 active:bg-white focus:ring-zinc-300",
+  "neutral-tertiary":
+    "h-8 border-transparent bg-transparent text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus:ring-zinc-300",
+
+  // Destructive
+  "destructive-primary":
+    "h-8 border-transparent bg-red-600 text-white hover:bg-red-500 active:bg-red-600 focus:ring-red-500",
+  "destructive-secondary":
+    "h-8 border-transparent bg-red-50 text-red-700 hover:bg-red-100 active:bg-red-50 focus:ring-red-300",
+  "destructive-tertiary":
+    "h-8 border-transparent bg-transparent text-red-700 hover:bg-red-50 active:bg-red-100 focus:ring-red-300",
+
+  // Inverse (for dark backgrounds)
+  inverse:
+    "h-8 border-transparent bg-transparent text-white hover:bg-white/15 active:bg-white/25 focus:ring-white",
+};
+
+const SIZE_STYLES: Record<
+  NonNullable<ComponentProps["size"]>,
+  { wrapper: string; icon: string; loader: string; text: string }
+> = {
+  small: {
+    wrapper: "h-6 px-2 text-xs",
+    icon: "text-current",
+    loader: "text-current",
+    text: "text-xs font-medium",
+  },
+  medium: {
+    wrapper: "h-8 px-3 text-sm",
+    icon: "text-current",
+    loader: "text-current",
+    text: "text-sm font-medium",
+  },
+  large: {
+    wrapper: "h-10 px-4 text-base",
+    icon: "text-current",
+    loader: "text-current",
+    text: "text-base font-medium",
+  },
+};
+
+/* -------------------- Component -------------------- */
+
+export const Component = React.forwardRef<HTMLButtonElement, ComponentProps>(
+  function Component(
+    {
+      variant = "brand-primary",
+      size = "medium",
+      children,
+      icon = null,
+      iconRight = null,
+      loading = false,
+      className,
+      type = "button",
+      ...otherProps
+    },
+    ref
+  ) {
+    const sizeStyles = SIZE_STYLES[size];
+    return (
+      <button
+        ref={ref}
+        type={type}
+        {...otherProps}
+        className={SubframeUtils.twClassNames(
+          VARIANT_BASE,
+          VARIANT_STYLES[variant],
+          sizeStyles.wrapper,
+          className
+        )}
+      >
+        {/* Left icon (hidden while loading) */}
+        {icon ? (
+          <SubframeCore.IconWrapper
+            className={SubframeUtils.twClassNames(
+              sizeStyles.icon,
+              loading && "hidden"
+            )}
+          >
+            {icon}
+          </SubframeCore.IconWrapper>
+        ) : null}
+
+        {/* Loader (shown only while loading) */}
+        <span
+          className={SubframeUtils.twClassNames(
+            "hidden items-center justify-center",
+            loading && "inline-flex"
+          )}
+        >
+          <SubframeCore.Loader className={sizeStyles.loader} />
+        </span>
+
+        {/* Label */}
+        {children ? (
+          <span
+            className={SubframeUtils.twClassNames(
+              sizeStyles.text,
+              loading && "hidden"
+            )}
+          >
+            {children}
+          </span>
+        ) : null}
+
+        {/* Right icon (hidden while loading) */}
+        {iconRight ? (
+          <SubframeCore.IconWrapper
+            className={SubframeUtils.twClassNames(
+              sizeStyles.icon,
+              loading && "hidden"
+            )}
+          >
+            {iconRight}
+          </SubframeCore.IconWrapper>
+        ) : null}
+      </button>
+    );
+  }
+);
+
+// Named + default export
+export default Component;
+
+
+code.demo.1755898307077.tsx
+import { Check, Trash2 } from "lucide-react";
+import Component from "@/components/ui/button-1";
+
+export default function ButtonVariants() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Component variant="brand-primary" icon={<Check size={16} />}>
+        Brand primary
+      </Component>
+      <Component variant="brand-secondary">Brand secondary</Component>
+      <Component variant="brand-tertiary">Brand tertiary</Component>
+
+      <Component variant="neutral-primary">Neutral primary</Component>
+      <Component variant="neutral-secondary">Neutral secondary</Component>
+      <Component variant="neutral-tertiary">Neutral tertiary</Component>
+
+      <Component variant="destructive-primary" icon={<Trash2 size={16} />}>
+        Delete
+      </Component>
+      <Component variant="destructive-secondary">Delete (secondary)</Component>
+      <Component variant="destructive-tertiary">Delete (tertiary)</Component>
+
+      <div className="bg-zinc-900 p-2 rounded-md">
+        <Component variant="inverse">Inverse</Component>
+      </div>
+    </div>
+  );
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/button-1.tsx
+"use client";
+
+import * as React from "react";
+import * as SubframeCore from "@subframe/core";
+
+/**
+ * IMPORTANT: Local SubframeUtils lives INSIDE this component file.
+ * Provides createTwClassNames() and twClassNames instance.
+ */
+namespace SubframeUtils {
+  export type ClassValue =
+    | string
+    | null
+    | undefined
+    | false
+    | Record<string, boolean>;
+
+  export function createTwClassNames() {
+    return (...classes: ClassValue[]) =>
+      classes
+        .flatMap((c) => {
+          if (!c) return [];
+          if (typeof c === "string") return [c];
+          return Object.entries(c)
+            .filter(([, ok]) => !!ok)
+            .map(([k]) => k);
+        })
+        .join(" ");
+  }
+
+  export const twClassNames = createTwClassNames();
+}
+
+/* -------------------- Types -------------------- */
+
+export interface ComponentProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?:
+    | "brand-primary"
+    | "brand-secondary"
+    | "brand-tertiary"
+    | "neutral-primary"
+    | "neutral-secondary"
+    | "neutral-tertiary"
+    | "destructive-primary"
+    | "destructive-secondary"
+    | "destructive-tertiary"
+    | "inverse";
+  size?: "large" | "medium" | "small";
+  children?: React.ReactNode;
+  icon?: React.ReactNode;
+  iconRight?: React.ReactNode;
+  loading?: boolean;
+}
+
+/* -------------------- Variant B (self-contained Tailwind colors) -------------------- */
+
+const VARIANT_BASE =
+  "inline-flex items-center justify-center gap-2 rounded-md px-3 border transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+
+const VARIANT_STYLES: Record<
+  NonNullable<ComponentProps["variant"]>,
+  string
+> = {
+  // Brand
+  "brand-primary":
+    "h-8 border-transparent bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-600 focus:ring-indigo-500",
+  "brand-secondary":
+    "h-8 border-transparent bg-indigo-50 text-indigo-700 hover:bg-indigo-100 active:bg-indigo-50 focus:ring-indigo-300",
+  "brand-tertiary":
+    "h-8 border-transparent bg-transparent text-indigo-700 hover:bg-indigo-50 active:bg-indigo-100 focus:ring-indigo-300",
+
+  // Neutral
+  "neutral-primary":
+    "h-8 border-transparent bg-zinc-100 text-zinc-700 hover:bg-zinc-200 active:bg-zinc-100 focus:ring-zinc-400",
+  "neutral-secondary":
+    "h-8 border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 active:bg-white focus:ring-zinc-300",
+  "neutral-tertiary":
+    "h-8 border-transparent bg-transparent text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus:ring-zinc-300",
+
+  // Destructive
+  "destructive-primary":
+    "h-8 border-transparent bg-red-600 text-white hover:bg-red-500 active:bg-red-600 focus:ring-red-500",
+  "destructive-secondary":
+    "h-8 border-transparent bg-red-50 text-red-700 hover:bg-red-100 active:bg-red-50 focus:ring-red-300",
+  "destructive-tertiary":
+    "h-8 border-transparent bg-transparent text-red-700 hover:bg-red-50 active:bg-red-100 focus:ring-red-300",
+
+  // Inverse (for dark backgrounds)
+  inverse:
+    "h-8 border-transparent bg-transparent text-white hover:bg-white/15 active:bg-white/25 focus:ring-white",
+};
+
+const SIZE_STYLES: Record<
+  NonNullable<ComponentProps["size"]>,
+  { wrapper: string; icon: string; loader: string; text: string }
+> = {
+  small: {
+    wrapper: "h-6 px-2 text-xs",
+    icon: "text-current",
+    loader: "text-current",
+    text: "text-xs font-medium",
+  },
+  medium: {
+    wrapper: "h-8 px-3 text-sm",
+    icon: "text-current",
+    loader: "text-current",
+    text: "text-sm font-medium",
+  },
+  large: {
+    wrapper: "h-10 px-4 text-base",
+    icon: "text-current",
+    loader: "text-current",
+    text: "text-base font-medium",
+  },
+};
+
+/* -------------------- Component -------------------- */
+
+export const Component = React.forwardRef<HTMLButtonElement, ComponentProps>(
+  function Component(
+    {
+      variant = "brand-primary",
+      size = "medium",
+      children,
+      icon = null,
+      iconRight = null,
+      loading = false,
+      className,
+      type = "button",
+      ...otherProps
+    },
+    ref
+  ) {
+    const sizeStyles = SIZE_STYLES[size];
+    return (
+      <button
+        ref={ref}
+        type={type}
+        {...otherProps}
+        className={SubframeUtils.twClassNames(
+          VARIANT_BASE,
+          VARIANT_STYLES[variant],
+          sizeStyles.wrapper,
+          className
+        )}
+      >
+        {/* Left icon (hidden while loading) */}
+        {icon ? (
+          <SubframeCore.IconWrapper
+            className={SubframeUtils.twClassNames(
+              sizeStyles.icon,
+              loading && "hidden"
+            )}
+          >
+            {icon}
+          </SubframeCore.IconWrapper>
+        ) : null}
+
+        {/* Loader (shown only while loading) */}
+        <span
+          className={SubframeUtils.twClassNames(
+            "hidden items-center justify-center",
+            loading && "inline-flex"
+          )}
+        >
+          <SubframeCore.Loader className={sizeStyles.loader} />
+        </span>
+
+        {/* Label */}
+        {children ? (
+          <span
+            className={SubframeUtils.twClassNames(
+              sizeStyles.text,
+              loading && "hidden"
+            )}
+          >
+            {children}
+          </span>
+        ) : null}
+
+        {/* Right icon (hidden while loading) */}
+        {iconRight ? (
+          <SubframeCore.IconWrapper
+            className={SubframeUtils.twClassNames(
+              sizeStyles.icon,
+              loading && "hidden"
+            )}
+          >
+            {iconRight}
+          </SubframeCore.IconWrapper>
+        ) : null}
+      </button>
+    );
+  }
+);
+
+// Named + default export
+export default Component;
+
+```
+
+Install NPM dependencies:
+```bash
+@subframe/core
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

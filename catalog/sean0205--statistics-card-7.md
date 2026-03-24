@@ -1,0 +1,177 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+statistics-card-7.tsx
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+export const Component = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div className={cn("flex flex-col items-center gap-4 p-4 rounded-lg")}>
+      <h1 className="text-2xl font-bold mb-2">Component Example</h1>
+      <h2 className="text-xl font-semibold">{count}</h2>
+      <div className="flex gap-2">
+        <button onClick={() => setCount((prev) => prev - 1)}>-</button>
+        <button onClick={() => setCount((prev) => prev + 1)}>+</button>
+      </div>
+    </div>
+  );
+};
+
+
+code.demo.1753372970550.tsx
+import { Badge } from '@/components/ui/badge-2';
+import { Card, CardContent } from '@/components/ui/card';
+import { ArrowUpRight, TrendingDown, UserPlus } from 'lucide-react';
+
+const cards = [
+  {
+    title: 'Total Sales & Cost',
+    subtitle: 'Last 60 days',
+    value: '$956.82k',
+    valueColor: 'text-green-600',
+    badge: {
+      color: 'bg-green-100 text-green-600 dark:bg-green-950 dark:text-green-400',
+      icon: ArrowUpRight,
+      iconColor: 'text-green-500',
+      text: '+5.4%',
+    },
+    subtext: (
+      <span className="text-green-600 font-medium">
+        +8.20k <span className="text-muted-foreground font-normal">vs prev. 60 days</span>
+      </span>
+    ),
+  },
+  {
+    title: 'New Customers',
+    subtitle: 'This quarter',
+    value: '1,245',
+    valueColor: 'text-blue-600',
+    badge: {
+      color: 'bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-400',
+      icon: UserPlus,
+      iconColor: 'text-blue-500',
+      text: '+3.2%',
+    },
+    subtext: (
+      <span className="text-blue-600 font-medium">
+        +39 <span className="text-muted-foreground font-normal">vs last quarter</span>
+      </span>
+    ),
+  },
+  {
+    title: 'Churn Rate',
+    subtitle: 'Last 30 days',
+    value: '2.8%',
+    valueColor: 'text-red-500',
+    badge: {
+      color: 'bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400',
+      icon: TrendingDown,
+      iconColor: 'text-red-500',
+      text: '-1.1%',
+    },
+    subtext: (
+      <span className="text-red-500 font-medium">
+        -0.3% <span className="text-muted-foreground font-normal">vs prev. 30 days</span>
+      </span>
+    ),
+  },
+];
+
+export default function StatisticCard7() {
+  return (
+    <div className="w-full max-w-5xl min-h-screen flex items-center justify-center p-6 lg:p-12">
+      <div className="@container grow w-full">
+        <div className="grid grid-cols-1 @3xl:grid-cols-3 bg-background overflow-hidden rounded-xl border border-border">
+          {cards.map((card, i) => (
+            <Card
+              key={i}
+              className="border-0 shadow-none rounded-none border-y @3xl:border-x @3xl:border-y-0 border-border last:border-0 first:border-0"
+            >
+              <CardContent className="flex flex-col h-full space-y-6 justify-between">
+                {/* Title & Subtitle */}
+                <div className="space-y-0.25">
+                  <div className="text-lg font-semibold text-foreground">{card.title}</div>
+                  <div className="text-sm text-muted-foreground">{card.subtitle}</div>
+                </div>
+
+                {/* Information */}
+                <div className="flex-1 flex flex-col gap-1.5 justify-between grow">
+                  {/* Value & Delta */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-3xl font-bold tracking-tight">{card.value}</span>
+                    <Badge
+                      className={`${card.badge.color} px-2 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-none`}
+                    >
+                      <card.badge.icon className={`w-3 h-3 ${card.badge.iconColor}`} />
+                      {card.badge.text}
+                    </Badge>
+                  </div>
+                  {/* Subtext */}
+                  <div className="text-sm">{card.subtext}</div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/statistics-card-7.tsx
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+export const Component = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div className={cn("flex flex-col items-center gap-4 p-4 rounded-lg")}>
+      <h1 className="text-2xl font-bold mb-2">Component Example</h1>
+      <h2 className="text-xl font-semibold">{count}</h2>
+      <div className="flex gap-2">
+        <button onClick={() => setCount((prev) => prev - 1)}>-</button>
+        <button onClick={() => setCount((prev) => prev + 1)}>+</button>
+      </div>
+    </div>
+  );
+};
+
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

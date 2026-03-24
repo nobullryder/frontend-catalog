@@ -1,0 +1,347 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+radio.tsx
+import React, { createContext, useContext, useEffect, useState } from "react";
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
+
+const RadioGroupContext = createContext<{
+  value: string | undefined | null;
+  onChange: (value: string) => void;
+  disabled: boolean;
+  required: boolean;
+} | null>(null);
+
+interface RadioGroupProps {
+  label?: string;
+  value: string | undefined | null;
+  onChange: (value: string) => void;
+  disabled?: boolean;
+  required?: boolean;
+  children?: React.ReactNode;
+}
+
+export const RadioGroup = ({
+  label,
+  value,
+  onChange,
+  disabled = false,
+  required = false,
+  children
+}: RadioGroupProps) => {
+  return (
+    <RadioGroupContext.Provider value={{ value, onChange, disabled, required }}>
+      {label && <span className="sr-only">{label}</span>}
+      {children}
+    </RadioGroupContext.Provider>
+  );
+};
+
+interface RadioGroupItemProps {
+  value?: string;
+  children?: React.ReactNode;
+}
+
+const RadioGroupItem = ({ value, children }: RadioGroupItemProps) => {
+  const context = useContext(RadioGroupContext);
+  const isSelected = context?.value === value;
+
+  return (
+    <label className={twMerge(clsx(
+      "flex items-center gap-2 cursor-pointer font-sans text-[13px] text-gray-1000 leading-3 group",
+      context?.disabled && "cursor-not-allowed text-gray-500"
+    ))}>
+      <input
+        type="radio"
+        className="absolute w-4 h-4 opacity-0"
+        checked={isSelected}
+        onChange={(event) => context?.onChange(event.target.value)}
+        disabled={context?.disabled}
+        required={context?.required}
+        name="radio-group"
+        value={value}
+      />
+      <span
+        className={twMerge(clsx(
+          "w-4 h-4 bg-background-100 relative border rounded-full duration-200 after:duration-200 flex items-center justify-center after:absolute after:top-1/2 after:left-1/2 after:-translate-y-1/2 after:-translate-x-1/2 after:rounded-full after:bg-gray-1000",
+          isSelected && "border-gray-1000 after:w-2 after:h-2",
+          !isSelected && "border-gray-700 after:w-0 after:h-0",
+          !isSelected && !context?.disabled && "group-hover:bg-gray-200 group-hover:border-gray-900",
+          context?.disabled && "after:bg-gray-500 border-gray-500"
+        ))}
+        aria-hidden="true"
+      />
+      {children}
+    </label>
+  );
+};
+
+RadioGroup.Item = RadioGroupItem;
+
+interface RadioProps {
+  disabled?: boolean;
+  required?: boolean;
+  checked?: boolean;
+  onChange?: (value: string) => void;
+  value?: string;
+}
+
+export const Radio = ({ disabled, checked, required, onChange, value }: RadioProps) => {
+  const [_checked, set_checked] = useState<boolean>(checked || false);
+
+  useEffect(() => {
+    if (typeof checked === "boolean") {
+      set_checked(checked);
+    }
+  }, [checked]);
+
+  const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event.target.value);
+    }
+  };
+
+  return (
+    <label className={twMerge(clsx(
+      "flex items-center gap-2 cursor-pointer font-sans text-[13px] leading-3 group",
+      disabled && "cursor-not-allowed"
+    ))}>
+      <input
+        type="radio"
+        className="absolute w-4 h-4 opacity-0"
+        checked={checked}
+        onChange={_onChange}
+        disabled={disabled}
+        required={required}
+        value={value}
+      />
+      <span
+        className={twMerge(clsx(
+          "w-4 h-4 bg-background-100 relative border rounded-full duration-200 after:duration-200 flex items-center justify-center after:absolute after:top-1/2 after:left-1/2 after:-translate-y-1/2 after:-translate-x-1/2 after:rounded-full after:bg-gray-1000",
+          checked && "border-gray-1000 after:w-2 after:h-2",
+          !checked && "border-gray-700 after:w-0 after:h-0",
+          !checked && !disabled && "group-hover:bg-gray-200 group-hover:border-gray-900",
+          disabled && "after:bg-gray-500 border-gray-500"
+        ))}
+        aria-hidden="true"
+      />
+    </label>
+  );
+};
+
+
+export const useRadio = (props: RadioProps) => {
+  return { component: (<RadioGroupItem {...props} />) };
+};
+
+code.demo.1751592727483.tsx
+import { RadioGroup, useRadio } from "@/components/ui/radio";
+import React, { useState } from "react";
+
+export default function HeadlessDemo() {
+  const [value4, setValue4] = useState<string>("one");
+  const { component } = useRadio({ value: "one", disabled: false });
+  const { component: component2 } = useRadio({ value: "two", disabled: false });
+
+  return (
+    <div className="w-80">
+        <RadioGroup onChange={setValue4} value={value4}>
+          <div className="flex flex-col gap-6 font-sans text-gray-1000">
+            <label
+              style={{
+                display: "flex",
+                justifyContent: "space-between"
+              }}
+            >
+              <span>Option 1</span>
+              {component}
+            </label>
+            <label
+              style={{
+                display: "flex",
+                justifyContent: "space-between"
+              }}
+            >
+              <span>Option 2</span>
+              {component2}
+            </label>
+          </div>
+        </RadioGroup>
+    </div>
+  );
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/radio.tsx
+import React, { createContext, useContext, useEffect, useState } from "react";
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
+
+const RadioGroupContext = createContext<{
+  value: string | undefined | null;
+  onChange: (value: string) => void;
+  disabled: boolean;
+  required: boolean;
+} | null>(null);
+
+interface RadioGroupProps {
+  label?: string;
+  value: string | undefined | null;
+  onChange: (value: string) => void;
+  disabled?: boolean;
+  required?: boolean;
+  children?: React.ReactNode;
+}
+
+export const RadioGroup = ({
+  label,
+  value,
+  onChange,
+  disabled = false,
+  required = false,
+  children
+}: RadioGroupProps) => {
+  return (
+    <RadioGroupContext.Provider value={{ value, onChange, disabled, required }}>
+      {label && <span className="sr-only">{label}</span>}
+      {children}
+    </RadioGroupContext.Provider>
+  );
+};
+
+interface RadioGroupItemProps {
+  value?: string;
+  children?: React.ReactNode;
+}
+
+const RadioGroupItem = ({ value, children }: RadioGroupItemProps) => {
+  const context = useContext(RadioGroupContext);
+  const isSelected = context?.value === value;
+
+  return (
+    <label className={twMerge(clsx(
+      "flex items-center gap-2 cursor-pointer font-sans text-[13px] text-gray-1000 leading-3 group",
+      context?.disabled && "cursor-not-allowed text-gray-500"
+    ))}>
+      <input
+        type="radio"
+        className="absolute w-4 h-4 opacity-0"
+        checked={isSelected}
+        onChange={(event) => context?.onChange(event.target.value)}
+        disabled={context?.disabled}
+        required={context?.required}
+        name="radio-group"
+        value={value}
+      />
+      <span
+        className={twMerge(clsx(
+          "w-4 h-4 bg-background-100 relative border rounded-full duration-200 after:duration-200 flex items-center justify-center after:absolute after:top-1/2 after:left-1/2 after:-translate-y-1/2 after:-translate-x-1/2 after:rounded-full after:bg-gray-1000",
+          isSelected && "border-gray-1000 after:w-2 after:h-2",
+          !isSelected && "border-gray-700 after:w-0 after:h-0",
+          !isSelected && !context?.disabled && "group-hover:bg-gray-200 group-hover:border-gray-900",
+          context?.disabled && "after:bg-gray-500 border-gray-500"
+        ))}
+        aria-hidden="true"
+      />
+      {children}
+    </label>
+  );
+};
+
+RadioGroup.Item = RadioGroupItem;
+
+interface RadioProps {
+  disabled?: boolean;
+  required?: boolean;
+  checked?: boolean;
+  onChange?: (value: string) => void;
+  value?: string;
+}
+
+export const Radio = ({ disabled, checked, required, onChange, value }: RadioProps) => {
+  const [_checked, set_checked] = useState<boolean>(checked || false);
+
+  useEffect(() => {
+    if (typeof checked === "boolean") {
+      set_checked(checked);
+    }
+  }, [checked]);
+
+  const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event.target.value);
+    }
+  };
+
+  return (
+    <label className={twMerge(clsx(
+      "flex items-center gap-2 cursor-pointer font-sans text-[13px] leading-3 group",
+      disabled && "cursor-not-allowed"
+    ))}>
+      <input
+        type="radio"
+        className="absolute w-4 h-4 opacity-0"
+        checked={checked}
+        onChange={_onChange}
+        disabled={disabled}
+        required={required}
+        value={value}
+      />
+      <span
+        className={twMerge(clsx(
+          "w-4 h-4 bg-background-100 relative border rounded-full duration-200 after:duration-200 flex items-center justify-center after:absolute after:top-1/2 after:left-1/2 after:-translate-y-1/2 after:-translate-x-1/2 after:rounded-full after:bg-gray-1000",
+          checked && "border-gray-1000 after:w-2 after:h-2",
+          !checked && "border-gray-700 after:w-0 after:h-0",
+          !checked && !disabled && "group-hover:bg-gray-200 group-hover:border-gray-900",
+          disabled && "after:bg-gray-500 border-gray-500"
+        ))}
+        aria-hidden="true"
+      />
+    </label>
+  );
+};
+
+
+export const useRadio = (props: RadioProps) => {
+  return { component: (<RadioGroupItem {...props} />) };
+};
+```
+
+Install NPM dependencies:
+```bash
+clsx, tailwind-merge
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

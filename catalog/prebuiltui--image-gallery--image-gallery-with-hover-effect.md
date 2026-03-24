@@ -1,0 +1,195 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+image-gallery.tsx
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+export default function Example() {
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+    
+        * {
+          font-family: 'Poppins', sans-serif;
+        }
+      `}</style>
+
+      
+      <section className="w-full flex flex-col items-center justify-start py-12">
+      
+        <div className="max-w-3xl text-center px-4">
+          <h1 className="text-3xl font-semibold">Our Latest Creations</h1>
+          <p className="text-sm text-slate-500 mt-2">
+            A visual collection of our most recent works – each piece crafted
+            with intention, emotion, and style.
+          </p>
+        </div>
+
+        {/* Галерея снизу */}
+        <div className="flex items-center gap-2 h-[400px] w-full max-w-5xl mt-10 px-4">
+          {[
+            "https://images.unsplash.com/photo-1719368472026-dc26f70a9b76?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1649265825072-f7dd6942baed?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1729086046027-09979ade13fd?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1601568494843-772eb04aca5d?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1585687501004-615dfdfde7f1?q=80&h=800&w=800&auto=format&fit=crop",
+          ].map((src, idx) => (
+            <div
+              key={idx}
+              className="relative group flex-grow transition-all w-56 rounded-lg overflow-hidden h-[400px] duration-500 hover:w-full"
+            >
+              <img
+                className="h-full w-full object-cover object-center"
+                src={src}
+                alt={`image-${idx}`}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+
+code.demo.1757574232766.tsx
+import React from "react";
+
+export default function Example() {
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+    
+        * {
+          font-family: 'Poppins', sans-serif;
+        }
+      `}</style>
+
+      <section className="w-full flex flex-col items-center justify-start py-12">
+        <div className="max-w-3xl text-center px-4">
+          <h1 className="text-3xl font-semibold">Explore the Library</h1>
+          <p className="text-sm text-slate-500 mt-2">
+            A visual collection of our most recent works – each piece crafted
+            with intention, emotion, and style.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center mt-10 mx-auto gap-4">
+          <img
+            className="max-w-56 h-80 object-cover rounded-lg hover:-translate-y-1 transition-all duration-300"
+            src="https://images.unsplash.com/photo-1562619371-b67725b6fde2?q=80&w=600&h=900&auto=format&fit=crop"
+            alt="image"
+          />
+          <img
+            className="max-w-56 h-80 object-cover rounded-lg hover:-translate-y-1 transition-all duration-300"
+            src="https://images.unsplash.com/photo-1633983482450-bfb7b566fe6a?q=80&w=600&h=900&auto=format&fit=crop"
+            alt="image"
+          />
+          <img
+            className="max-w-56 h-80 object-cover rounded-lg hover:-translate-y-1 transition-all duration-300"
+            src="https://plus.unsplash.com/premium_photo-1671209879721-3082e78307e3?q=80&w=600&h=900&auto=format&fit=crop"
+            alt="image"
+          />
+          <img
+            className="max-w-56 h-80 object-cover rounded-lg hover:-translate-y-1 transition-all duration-300"
+            src="https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=600&h=900&auto=format&fit=crop"
+            alt="image"
+          />
+        </div>
+      </section>
+    </>
+  );
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/image-gallery.tsx
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+export default function Example() {
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+    
+        * {
+          font-family: 'Poppins', sans-serif;
+        }
+      `}</style>
+
+      
+      <section className="w-full flex flex-col items-center justify-start py-12">
+      
+        <div className="max-w-3xl text-center px-4">
+          <h1 className="text-3xl font-semibold">Our Latest Creations</h1>
+          <p className="text-sm text-slate-500 mt-2">
+            A visual collection of our most recent works – each piece crafted
+            with intention, emotion, and style.
+          </p>
+        </div>
+
+        {/* Галерея снизу */}
+        <div className="flex items-center gap-2 h-[400px] w-full max-w-5xl mt-10 px-4">
+          {[
+            "https://images.unsplash.com/photo-1719368472026-dc26f70a9b76?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1649265825072-f7dd6942baed?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1729086046027-09979ade13fd?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1601568494843-772eb04aca5d?q=80&h=800&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1585687501004-615dfdfde7f1?q=80&h=800&w=800&auto=format&fit=crop",
+          ].map((src, idx) => (
+            <div
+              key={idx}
+              className="relative group flex-grow transition-all w-56 rounded-lg overflow-hidden h-[400px] duration-500 hover:w-full"
+            >
+              <img
+                className="h-full w-full object-cover object-center"
+                src={src}
+                alt={`image-${idx}`}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

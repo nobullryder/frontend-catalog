@@ -1,0 +1,271 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+coss-button.tsx
+"use client";
+
+import { Slot } from "@radix-ui/react-slot";
+import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Loader2 } from "lucide-react";
+import * as React from "react";
+
+export const buttonVariants = cva(
+  "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-lg border font-medium text-base outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-64 [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 sm:text-sm",
+  {
+    defaultVariants: {
+      size: "default",
+      variant: "default",
+    },
+    variants: {
+      size: {
+        default: "h-9 px-3 sm:h-8",
+        icon: "size-9 sm:size-8",
+        "icon-lg": "size-10 sm:size-9",
+        "icon-sm": "size-8 sm:size-7",
+        "icon-xl":
+          "size-11 sm:size-10 [&_svg:not([class*='size-'])]:size-5 sm:[&_svg:not([class*='size-'])]:size-4.5",
+        "icon-xs":
+          "size-7 rounded-md sm:size-6 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-3.5",
+        lg: "h-10 px-3.5 sm:h-9",
+        sm: "h-8 gap-1.5 px-2.5 sm:h-7",
+        xl: "h-11 px-4 text-lg sm:h-10 sm:text-base [&_svg:not([class*='size-'])]:size-5 sm:[&_svg:not([class*='size-'])]:size-4.5",
+        xs: "h-7 gap-1 rounded-md px-2 text-sm sm:h-6 sm:text-xs [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-3.5",
+      },
+      variant: {
+        default:
+          "border-primary bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 active:bg-primary/90",
+        destructive:
+          "border-destructive bg-destructive text-white shadow-sm hover:bg-destructive/90 active:bg-destructive/90",
+        "destructive-outline":
+          "border-input bg-popover text-destructive-foreground shadow-xs/5 hover:border-destructive/32 hover:bg-destructive/4 active:border-destructive/32 active:bg-destructive/4",
+        ghost:
+          "border-transparent text-foreground hover:bg-accent active:bg-accent",
+        link: "border-transparent text-foreground underline-offset-4 hover:underline active:underline",
+        outline:
+          "border-input bg-popover text-foreground shadow-xs/5 hover:bg-accent/50 active:bg-accent/50 dark:bg-input/32 dark:hover:bg-input/64",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/90 active:bg-secondary/80",
+      },
+    },
+  },
+);
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  loading?: boolean;
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      loading = false,
+      disabled: disabledProp,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : "button";
+    const isDisabled = Boolean(loading || disabledProp);
+
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        disabled={isDisabled}
+        aria-disabled={loading || undefined}
+        data-loading={loading ? "" : undefined}
+        data-slot="button"
+        type={asChild ? undefined : "button"}
+        {...props}
+      >
+        {loading ? (
+          <span className="invisible inline-flex items-center gap-2">{children}</span>
+        ) : (
+          children
+        )}
+        {loading && (
+          <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <Loader2
+              className="size-4 animate-spin"
+              data-slot="button-loading-indicator"
+              aria-label="Loading"
+            />
+          </span>
+        )}
+      </Comp>
+    );
+  },
+);
+Button.displayName = "Button";
+
+
+code.demo.1773939405007.tsx
+import { Button } from "@/components/ui/component";
+
+export default function ButtonSizesDemo() {
+  return (
+    <div className="flex min-h-screen w-full items-center justify-center bg-background p-8">
+      <div className="flex flex-wrap items-center gap-3">
+        <Button size="xs">Extra Small</Button>
+        <Button size="sm">Small</Button>
+        <Button size="default">Default</Button>
+        <Button size="lg">Large</Button>
+        <Button size="xl">Extra Large</Button>
+      </div>
+    </div>
+  );
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+/components/ui/coss-button.tsx
+"use client";
+
+import { Slot } from "@radix-ui/react-slot";
+import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Loader2 } from "lucide-react";
+import * as React from "react";
+
+export const buttonVariants = cva(
+  "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-lg border font-medium text-base outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-64 [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 sm:text-sm",
+  {
+    defaultVariants: {
+      size: "default",
+      variant: "default",
+    },
+    variants: {
+      size: {
+        default: "h-9 px-3 sm:h-8",
+        icon: "size-9 sm:size-8",
+        "icon-lg": "size-10 sm:size-9",
+        "icon-sm": "size-8 sm:size-7",
+        "icon-xl":
+          "size-11 sm:size-10 [&_svg:not([class*='size-'])]:size-5 sm:[&_svg:not([class*='size-'])]:size-4.5",
+        "icon-xs":
+          "size-7 rounded-md sm:size-6 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-3.5",
+        lg: "h-10 px-3.5 sm:h-9",
+        sm: "h-8 gap-1.5 px-2.5 sm:h-7",
+        xl: "h-11 px-4 text-lg sm:h-10 sm:text-base [&_svg:not([class*='size-'])]:size-5 sm:[&_svg:not([class*='size-'])]:size-4.5",
+        xs: "h-7 gap-1 rounded-md px-2 text-sm sm:h-6 sm:text-xs [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-3.5",
+      },
+      variant: {
+        default:
+          "border-primary bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 active:bg-primary/90",
+        destructive:
+          "border-destructive bg-destructive text-white shadow-sm hover:bg-destructive/90 active:bg-destructive/90",
+        "destructive-outline":
+          "border-input bg-popover text-destructive-foreground shadow-xs/5 hover:border-destructive/32 hover:bg-destructive/4 active:border-destructive/32 active:bg-destructive/4",
+        ghost:
+          "border-transparent text-foreground hover:bg-accent active:bg-accent",
+        link: "border-transparent text-foreground underline-offset-4 hover:underline active:underline",
+        outline:
+          "border-input bg-popover text-foreground shadow-xs/5 hover:bg-accent/50 active:bg-accent/50 dark:bg-input/32 dark:hover:bg-input/64",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/90 active:bg-secondary/80",
+      },
+    },
+  },
+);
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  loading?: boolean;
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      loading = false,
+      disabled: disabledProp,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : "button";
+    const isDisabled = Boolean(loading || disabledProp);
+
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        disabled={isDisabled}
+        aria-disabled={loading || undefined}
+        data-loading={loading ? "" : undefined}
+        data-slot="button"
+        type={asChild ? undefined : "button"}
+        {...props}
+      >
+        {loading ? (
+          <span className="invisible inline-flex items-center gap-2">{children}</span>
+        ) : (
+          children
+        )}
+        {loading && (
+          <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <Loader2
+              className="size-4 animate-spin"
+              data-slot="button-loading-indicator"
+              aria-label="Loading"
+            />
+          </span>
+        )}
+      </Comp>
+    );
+  },
+);
+Button.displayName = "Button";
+
+```
+
+Install NPM dependencies:
+```bash
+lucide-react, @radix-ui/react-slot, class-variance-authority
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

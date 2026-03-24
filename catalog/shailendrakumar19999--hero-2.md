@@ -1,0 +1,252 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+hero-2.tsx
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+export const Component = () => {
+  const [mobileMenuExpanded, setMobileMenuExpanded] = useState(false);
+
+  return (
+    <div className={cn("flex flex-col items-center gap-4 w-full rounded-lg")}>
+      <div className="w-full">
+        <header className="py-4 bg-black sm:py-6">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between">
+              <div className="shrink-0">
+                <a href="#" title="" className="flex font-bold text-3xl">
+                  Logo
+                </a>
+              </div>
+
+              <div className="flex md:hidden">
+                <button 
+                  type="button" 
+                  className="text-white"
+                  onClick={() => setMobileMenuExpanded(!mobileMenuExpanded)}
+                >
+                  {!mobileMenuExpanded ? (
+                    <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  ) : (
+                    <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
+              <nav className="hidden md:flex md:items-center md:justify-end md:space-x-12">
+                <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Products</a>
+                <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Features</a>
+                <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Pricing</a>
+                <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Support</a>
+              </nav>
+            </div>
+
+            {mobileMenuExpanded && (
+              <nav className="md:hidden">
+                <div className="flex flex-col pt-8 pb-4 space-y-6">
+                  <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Products</a>
+                  <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Features</a>
+                  <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Pricing</a>
+                  <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Support</a>
+                </div>
+              </nav>
+            )}
+          </div>
+        </header>
+
+        <section className="py-12 bg-black sm:pb-16 lg:pb-20 xl:pb-24">
+          <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+            <div className="relative">
+              <div className="lg:w-2/3">
+                <p className="text-sm font-normal tracking-widest text-gray-300 uppercase">A Hub for Designers, Developers & Marketers</p>
+                <h1 className="mt-6 text-4xl font-normal text-white sm:mt-10 sm:text-5xl lg:text-6xl xl:text-8xl">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-purple-500">Unlimited Design</span> Inspiration
+                </h1>
+                <p className="max-w-lg mt-4 text-xl font-normal text-gray-400 sm:mt-8">
+                  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat.
+                </p>
+                <div className="relative inline-flex items-center justify-center mt-8 sm:mt-12 group">
+                  <div className="absolute transition-all duration-200 rounded-full -inset-px bg-gradient-to-r from-cyan-500 to-purple-500 group-hover:shadow-lg group-hover:shadow-cyan-500/50"></div>
+                  <a href="#" title="" className="relative inline-flex items-center justify-center px-8 py-3 text-base font-normal text-white bg-black border border-transparent rounded-full" role="button">
+                    Start Exploring Inspiration
+                  </a>
+                </div>
+
+                <div>
+                  <div className="inline-flex items-center pt-6 mt-8 border-t border-gray-800 sm:pt-10 sm:mt-14">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M13 7.00003H21M21 7.00003V15M21 7.00003L13 15L9 11L3 17" stroke="url(#a)" strokeLinecap="round" strokeLinejoin="round" />
+                      <defs>
+                        <linearGradient id="a" x1="3" y1="7.00003" x2="22.2956" y2="12.0274" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" style={{stopColor: 'rgb(6 182 212)'}} />
+                          <stop offset="100%" style={{stopColor: 'rgb(168 85 247)'}} />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+
+                    <span className="ml-2 text-base font-normal text-white">42 new design inspiration was added last week</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 md:absolute md:mt-0 md:top-32 lg:top-0 md:right-0">
+                <img className="w-full max-w-xs mx-auto lg:max-w-lg xl:max-w-xl" src="https://landingfoliocom.imgix.net/store/collection/dusk/images/hero/1/3d-illustration.png" alt="" />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+
+code.demo.1759051578243.tsx
+import { Component } from "@/components/ui/hero-2";
+
+export default function DemoOne() {
+  return <Component />;
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/hero-2.tsx
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+export const Component = () => {
+  const [mobileMenuExpanded, setMobileMenuExpanded] = useState(false);
+
+  return (
+    <div className={cn("flex flex-col items-center gap-4 w-full rounded-lg")}>
+      <div className="w-full">
+        <header className="py-4 bg-black sm:py-6">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between">
+              <div className="shrink-0">
+                <a href="#" title="" className="flex font-bold text-3xl">
+                  Logo
+                </a>
+              </div>
+
+              <div className="flex md:hidden">
+                <button 
+                  type="button" 
+                  className="text-white"
+                  onClick={() => setMobileMenuExpanded(!mobileMenuExpanded)}
+                >
+                  {!mobileMenuExpanded ? (
+                    <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  ) : (
+                    <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
+              <nav className="hidden md:flex md:items-center md:justify-end md:space-x-12">
+                <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Products</a>
+                <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Features</a>
+                <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Pricing</a>
+                <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Support</a>
+              </nav>
+            </div>
+
+            {mobileMenuExpanded && (
+              <nav className="md:hidden">
+                <div className="flex flex-col pt-8 pb-4 space-y-6">
+                  <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Products</a>
+                  <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Features</a>
+                  <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Pricing</a>
+                  <a href="#" title="" className="text-base font-normal text-gray-400 transition-all duration-200 hover:text-white">Support</a>
+                </div>
+              </nav>
+            )}
+          </div>
+        </header>
+
+        <section className="py-12 bg-black sm:pb-16 lg:pb-20 xl:pb-24">
+          <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+            <div className="relative">
+              <div className="lg:w-2/3">
+                <p className="text-sm font-normal tracking-widest text-gray-300 uppercase">A Hub for Designers, Developers & Marketers</p>
+                <h1 className="mt-6 text-4xl font-normal text-white sm:mt-10 sm:text-5xl lg:text-6xl xl:text-8xl">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-purple-500">Unlimited Design</span> Inspiration
+                </h1>
+                <p className="max-w-lg mt-4 text-xl font-normal text-gray-400 sm:mt-8">
+                  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat.
+                </p>
+                <div className="relative inline-flex items-center justify-center mt-8 sm:mt-12 group">
+                  <div className="absolute transition-all duration-200 rounded-full -inset-px bg-gradient-to-r from-cyan-500 to-purple-500 group-hover:shadow-lg group-hover:shadow-cyan-500/50"></div>
+                  <a href="#" title="" className="relative inline-flex items-center justify-center px-8 py-3 text-base font-normal text-white bg-black border border-transparent rounded-full" role="button">
+                    Start Exploring Inspiration
+                  </a>
+                </div>
+
+                <div>
+                  <div className="inline-flex items-center pt-6 mt-8 border-t border-gray-800 sm:pt-10 sm:mt-14">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M13 7.00003H21M21 7.00003V15M21 7.00003L13 15L9 11L3 17" stroke="url(#a)" strokeLinecap="round" strokeLinejoin="round" />
+                      <defs>
+                        <linearGradient id="a" x1="3" y1="7.00003" x2="22.2956" y2="12.0274" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" style={{stopColor: 'rgb(6 182 212)'}} />
+                          <stop offset="100%" style={{stopColor: 'rgb(168 85 247)'}} />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+
+                    <span className="ml-2 text-base font-normal text-white">42 new design inspiration was added last week</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 md:absolute md:mt-0 md:top-32 lg:top-0 md:right-0">
+                <img className="w-full max-w-xs mx-auto lg:max-w-lg xl:max-w-xl" src="https://landingfoliocom.imgix.net/store/collection/dusk/images/hero/1/3d-illustration.png" alt="" />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

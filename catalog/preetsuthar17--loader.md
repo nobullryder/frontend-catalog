@@ -1,0 +1,217 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+loader.tsx
+"use client";
+
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+
+const loaderVariants = cva("inline-block", {
+  variants: {
+    size: {
+      xs: "h-3 w-3",
+      sm: "h-4 w-4",
+      md: "h-5 w-5",
+      lg: "h-6 w-6",
+      xl: "h-8 w-8",
+    },
+    variant: {
+      default: "text-foreground",
+      primary: "text-primary",
+      secondary: "text-secondary-foreground",
+      muted: "text-muted-foreground",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+    variant: "default",
+  },
+});
+
+export interface LoaderProps
+  extends React.SVGAttributes<SVGSVGElement>,
+    VariantProps<typeof loaderVariants> {}
+
+const Loader = React.forwardRef<SVGSVGElement, LoaderProps>(
+  ({ className, size, variant, ...props }, ref) => {
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+      setIsMounted(true);
+    }, []);
+
+    return (
+      <svg
+        ref={ref}
+        className={cn(
+          loaderVariants({ size, variant }),
+          isMounted && "animate-spin",
+          className,
+        )}
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        role="status"
+        aria-label="Loading"
+        suppressHydrationWarning
+        {...props}
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        />{" "}
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        />
+      </svg>
+    );
+  },
+);
+
+Loader.displayName = "Loader";
+
+export { Loader, loaderVariants };
+
+code.demo.1751157409109.tsx
+import { Loader } from "@/components/ui/loader";
+
+export default function DemoOne() {
+  return (
+    <>
+      <div className="flex items-center gap-6 flex-wrap">
+        <Loader size="xs" />
+        <Loader size="sm" />
+        <Loader size="md" />
+        <Loader size="lg" />
+        <Loader size="xl" />
+      </div>
+    </>
+  );
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/loader.tsx
+"use client";
+
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+
+const loaderVariants = cva("inline-block", {
+  variants: {
+    size: {
+      xs: "h-3 w-3",
+      sm: "h-4 w-4",
+      md: "h-5 w-5",
+      lg: "h-6 w-6",
+      xl: "h-8 w-8",
+    },
+    variant: {
+      default: "text-foreground",
+      primary: "text-primary",
+      secondary: "text-secondary-foreground",
+      muted: "text-muted-foreground",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+    variant: "default",
+  },
+});
+
+export interface LoaderProps
+  extends React.SVGAttributes<SVGSVGElement>,
+    VariantProps<typeof loaderVariants> {}
+
+const Loader = React.forwardRef<SVGSVGElement, LoaderProps>(
+  ({ className, size, variant, ...props }, ref) => {
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+      setIsMounted(true);
+    }, []);
+
+    return (
+      <svg
+        ref={ref}
+        className={cn(
+          loaderVariants({ size, variant }),
+          isMounted && "animate-spin",
+          className,
+        )}
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        role="status"
+        aria-label="Loading"
+        suppressHydrationWarning
+        {...props}
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        />{" "}
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        />
+      </svg>
+    );
+  },
+);
+
+Loader.displayName = "Loader";
+
+export { Loader, loaderVariants };
+```
+
+Install NPM dependencies:
+```bash
+class-variance-authority
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

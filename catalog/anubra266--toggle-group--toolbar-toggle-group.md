@@ -1,0 +1,190 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+toggle-group.tsx
+"use client";
+
+import { ToggleGroup } from "@ark-ui/react/toggle-group";
+
+export default function ToggleGroupBasic() {
+  return (
+    <div className="bg-white dark:bg-gray-800 w-full px-4 py-12 rounded-xl flex flex-col items-center">
+      <ToggleGroup.Root className="inline-flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+        <ToggleGroup.Item
+          value="left"
+          className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-white dark:hover:bg-gray-600 data-[state=on]:bg-white dark:data-[state=on]:bg-gray-600 data-[state=on]:text-gray-900 dark:data-[state=on]:text-white data-[state=on]:shadow-sm transition-all"
+        >
+          Left
+        </ToggleGroup.Item>
+        <ToggleGroup.Item
+          value="center"
+          className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-white dark:hover:bg-gray-600 data-[state=on]:bg-white dark:data-[state=on]:bg-gray-600 data-[state=on]:text-gray-900 dark:data-[state=on]:text-white data-[state=on]:shadow-sm transition-all"
+        >
+          Center
+        </ToggleGroup.Item>
+        <ToggleGroup.Item
+          value="right"
+          className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-white dark:hover:bg-gray-600 data-[state=on]:bg-white dark:data-[state=on]:bg-gray-600 data-[state=on]:text-gray-900 dark:data-[state=on]:text-white data-[state=on]:shadow-sm transition-all"
+        >
+          Right
+        </ToggleGroup.Item>
+      </ToggleGroup.Root>
+    </div>
+  );
+}
+
+
+code.demo.1756144661337.tsx
+"use client";
+
+import { ToggleGroup } from "@ark-ui/react/toggle-group";
+import {
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Bold,
+  Italic,
+  Underline,
+  Link,
+} from "lucide-react";
+
+export default function ToggleGroupToolbar() {
+  return (
+    <div className="bg-white dark:bg-gray-800 w-full px-4 py-12 rounded-xl flex flex-col items-center">
+      <div className="flex items-center gap-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+        {/* Text Formatting */}
+        <ToggleGroup.Root
+          multiple
+          className="inline-flex border-r border-gray-200 dark:border-gray-600 pr-3 gap-1"
+        >
+          <ToggleGroup.Item
+            value="bold"
+            className="p-2 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-100 dark:hover:bg-gray-600 data-[state=on]:bg-blue-100 dark:data-[state=on]:bg-blue-900/30 data-[state=on]:text-blue-700 dark:data-[state=on]:text-blue-300 transition-all"
+          >
+            <Bold className="w-4 h-4" />
+          </ToggleGroup.Item>
+          <ToggleGroup.Item
+            value="italic"
+            className="p-2 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-100 dark:hover:bg-gray-600 data-[state=on]:bg-blue-100 dark:data-[state=on]:bg-blue-900/30 data-[state=on]:text-blue-700 dark:data-[state=on]:text-blue-300 transition-all"
+          >
+            <Italic className="w-4 h-4" />
+          </ToggleGroup.Item>
+          <ToggleGroup.Item
+            value="underline"
+            className="p-2 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-100 dark:hover:bg-gray-600 data-[state=on]:bg-blue-100 dark:data-[state=on]:bg-blue-900/30 data-[state=on]:text-blue-700 dark:data-[state=on]:text-blue-300 transition-all"
+          >
+            <Underline className="w-4 h-4" />
+          </ToggleGroup.Item>
+        </ToggleGroup.Root>
+
+        {/* Text Alignment */}
+        <ToggleGroup.Root
+          defaultValue={["left"]}
+          className="inline-flex border-r border-gray-200 dark:border-gray-600 pr-3 gap-0.5"
+        >
+          <ToggleGroup.Item
+            value="left"
+            className="p-2 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-100 dark:hover:bg-gray-600 data-[state=on]:bg-blue-100 dark:data-[state=on]:bg-blue-900/30 data-[state=on]:text-blue-700 dark:data-[state=on]:text-blue-300 transition-all"
+          >
+            <AlignLeft className="w-4 h-4" />
+          </ToggleGroup.Item>
+          <ToggleGroup.Item
+            value="center"
+            className="p-2 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-100 dark:hover:bg-gray-600 data-[state=on]:bg-blue-100 dark:data-[state=on]:bg-blue-900/30 data-[state=on]:text-blue-700 dark:data-[state=on]:text-blue-300 transition-all"
+          >
+            <AlignCenter className="w-4 h-4" />
+          </ToggleGroup.Item>
+          <ToggleGroup.Item
+            value="right"
+            className="p-2 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-100 dark:hover:bg-gray-600 data-[state=on]:bg-blue-100 dark:data-[state=on]:bg-blue-900/30 data-[state=on]:text-blue-700 dark:data-[state=on]:text-blue-300 transition-all"
+          >
+            <AlignRight className="w-4 h-4" />
+          </ToggleGroup.Item>
+        </ToggleGroup.Root>
+
+        {/* Insert Options */}
+        <ToggleGroup.Root multiple className="inline-flex">
+          <ToggleGroup.Item
+            value="link"
+            className="p-2 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-100 dark:hover:bg-gray-600 data-[state=on]:bg-blue-100 dark:data-[state=on]:bg-blue-900/30 data-[state=on]:text-blue-700 dark:data-[state=on]:text-blue-300 transition-all"
+          >
+            <Link className="w-4 h-4" />
+          </ToggleGroup.Item>
+        </ToggleGroup.Root>
+      </div>
+    </div>
+  );
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/toggle-group.tsx
+"use client";
+
+import { ToggleGroup } from "@ark-ui/react/toggle-group";
+
+export default function ToggleGroupBasic() {
+  return (
+    <div className="bg-white dark:bg-gray-800 w-full px-4 py-12 rounded-xl flex flex-col items-center">
+      <ToggleGroup.Root className="inline-flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+        <ToggleGroup.Item
+          value="left"
+          className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-white dark:hover:bg-gray-600 data-[state=on]:bg-white dark:data-[state=on]:bg-gray-600 data-[state=on]:text-gray-900 dark:data-[state=on]:text-white data-[state=on]:shadow-sm transition-all"
+        >
+          Left
+        </ToggleGroup.Item>
+        <ToggleGroup.Item
+          value="center"
+          className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-white dark:hover:bg-gray-600 data-[state=on]:bg-white dark:data-[state=on]:bg-gray-600 data-[state=on]:text-gray-900 dark:data-[state=on]:text-white data-[state=on]:shadow-sm transition-all"
+        >
+          Center
+        </ToggleGroup.Item>
+        <ToggleGroup.Item
+          value="right"
+          className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-white dark:hover:bg-gray-600 data-[state=on]:bg-white dark:data-[state=on]:bg-gray-600 data-[state=on]:text-gray-900 dark:data-[state=on]:text-white data-[state=on]:shadow-sm transition-all"
+        >
+          Right
+        </ToggleGroup.Item>
+      </ToggleGroup.Root>
+    </div>
+  );
+}
+
+```
+
+Install NPM dependencies:
+```bash
+@ark-ui/react
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

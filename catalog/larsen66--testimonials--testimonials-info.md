@@ -1,0 +1,149 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+testimonials.tsx
+export default function TestimonialSection() {
+    return (
+        <section>
+            <div className="py-24">
+                <div className="mx-auto w-full max-w-5xl px-6">
+                    <blockquote className="before:bg-primary relative max-w-xl pl-6 before:absolute before:inset-y-0 before:left-0 before:w-1 before:rounded-full">
+                        <p className="text-foreground text-lg">Using Tailark has been like unlocking a secret design superpower. It's the perfect fusion of simplicity and versatility, enabling us to create UIs that are as stunning as they are user-friendly.</p>
+                        <footer className="mt-4 flex items-center gap-2">
+                            <cite>John Doe</cite>
+                            <span
+                                aria-hidden
+                                className="bg-foreground/15 size-1 rounded-full"></span>
+                            <span className="text-muted-foreground">Product Designer</span>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+code.demo.1755259635699.tsx
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
+export default function TestimonialSection() {
+    const testimonials = [
+        {
+            name: 'Méschac Irung',
+            role: 'Creator',
+            avatar: 'https://avatars.githubusercontent.com/u/47919550?v=4',
+            content: "Using Tailark has been like unlocking a secret design superpower. It's the perfect fusion of simplicity and versatility.",
+        },
+        {
+            name: 'Théo Balick',
+            role: 'Frontend Dev',
+            avatar: 'https://avatars.githubusercontent.com/u/68236786?v=4',
+            content: 'Tailark has transformed the way I develop web applications. The flexibility to customize every aspect is amazing.',
+        },
+        {
+            name: 'Glodie Lukose',
+            role: 'Frontend Dev',
+            avatar: 'https://avatars.githubusercontent.com/u/99137927?v=4',
+            content: 'The extensive collection of UI components has significantly accelerated my workflow. Tailark is a game-changer.',
+        },
+    ]
+
+    return (
+        <section>
+            <div className="bg-muted py-24">
+                <div className="mx-auto w-full max-w-5xl px-6">
+                    <div className="mb-12">
+                        <h2 className="text-foreground text-4xl font-semibold">What Our Clients Say</h2>
+                        <p className="text-muted-foreground my-4 text-balance text-lg">
+                            Discover why our clients love working with us. Read their testimonials about our dedication to excellence, innovative solutions, and exceptional customer service.
+                        </p>
+                    </div>
+
+                    {/* Grid: 1 col → 2 cols → 3 cols */}
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {testimonials.map((testimonial, index) => (
+                            <div
+                                key={index}
+                                className="bg-background ring-foreground/10 rounded-2xl border border-transparent px-4 py-3 ring-1"
+                            >
+                                <p className="text-foreground">{testimonial.content}</p>
+                                <div className="mt-4 flex items-center gap-2">
+                                    <Avatar className="ring-foreground/10 size-8 border border-transparent shadow ring-1">
+                                        <AvatarImage
+                                            src={testimonial.avatar}
+                                            alt={testimonial.name}
+                                        />
+                                        <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="text-foreground text-sm font-medium">{testimonial.name}</div>
+                                    <span
+                                        aria-hidden
+                                        className="bg-foreground/25 size-1 rounded-full"
+                                    ></span>
+                                    <span className="text-muted-foreground text-sm">{testimonial.role}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/testimonials.tsx
+export default function TestimonialSection() {
+    return (
+        <section>
+            <div className="py-24">
+                <div className="mx-auto w-full max-w-5xl px-6">
+                    <blockquote className="before:bg-primary relative max-w-xl pl-6 before:absolute before:inset-y-0 before:left-0 before:w-1 before:rounded-full">
+                        <p className="text-foreground text-lg">Using Tailark has been like unlocking a secret design superpower. It's the perfect fusion of simplicity and versatility, enabling us to create UIs that are as stunning as they are user-friendly.</p>
+                        <footer className="mt-4 flex items-center gap-2">
+                            <cite>John Doe</cite>
+                            <span
+                                aria-hidden
+                                className="bg-foreground/15 size-1 rounded-full"></span>
+                            <span className="text-muted-foreground">Product Designer</span>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+    )
+}
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

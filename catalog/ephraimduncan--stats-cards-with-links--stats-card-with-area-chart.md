@@ -1,0 +1,758 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+stats-cards-with-links.tsx
+"use client";
+
+import * as React from "react";
+
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card"
+      className={cn(
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        className
+      )}
+      {...props}
+    />
+  )
+);
+Card.displayName = "Card";
+
+interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-header"
+      className={cn(
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
+        className
+      )}
+      {...props}
+    />
+  )
+);
+CardHeader.displayName = "CardHeader";
+
+interface CardTitleProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardTitle = React.forwardRef<HTMLDivElement, CardTitleProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-title"
+      className={cn("leading-none font-semibold", className)}
+      {...props}
+    />
+  )
+);
+CardTitle.displayName = "CardTitle";
+
+interface CardDescriptionProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardDescription = React.forwardRef<HTMLDivElement, CardDescriptionProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-description"
+      className={cn("text-muted-foreground text-sm", className)}
+      {...props}
+    />
+  )
+);
+CardDescription.displayName = "CardDescription";
+
+interface CardActionProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardAction = React.forwardRef<HTMLDivElement, CardActionProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-action"
+      className={cn(
+        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
+        className
+      )}
+      {...props}
+    />
+  )
+);
+CardAction.displayName = "CardAction";
+
+interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-content"
+      className={cn("px-6", className)}
+      {...props}
+    />
+  )
+);
+CardContent.displayName = "CardContent";
+
+interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-footer"
+      className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
+      {...props}
+    />
+  )
+);
+CardFooter.displayName = "CardFooter";
+
+const data = [
+  {
+    name: "Monthly recurring revenue",
+    value: "$34.1K",
+    change: "+6.1%",
+    changeType: "positive",
+    href: "#",
+  },
+  {
+    name: "Users",
+    value: "500.1K",
+    change: "+19.2%",
+    changeType: "positive",
+    href: "#",
+  },
+  {
+    name: "User growth",
+    value: "11.3%",
+    change: "-1.2%",
+    changeType: "negative",
+    href: "#",
+  },
+];
+
+export default function Stats05() {
+  return (
+    <div className="flex items-center justify-center p-10 w-full">
+      <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full">
+        {data.map((item) => (
+          <Card key={item.name} className="p-0 gap-0">
+            <CardContent className="p-6">
+              <dd className="flex items-start justify-between space-x-2">
+                <span className="truncate text-sm text-muted-foreground">
+                  {item.name}
+                </span>
+                <span
+                  className={cn(
+                    "text-sm font-medium",
+                    item.changeType === "positive"
+                      ? "text-emerald-700 dark:text-emerald-500"
+                      : "text-red-700 dark:text-red-500"
+                  )}
+                >
+                  {item.change}
+                </span>
+              </dd>
+              <dd className="mt-1 text-3xl font-semibold text-foreground">
+                {item.value}
+              </dd>
+            </CardContent>
+            <CardFooter className="flex justify-end border-t border-border !p-0">
+              <a
+                href={item.href}
+                className="px-6 py-3 text-sm font-medium text-primary hover:text-primary/90"
+              >
+                View more →
+              </a>
+            </CardFooter>
+          </Card>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+code.demo.1753307424371.tsx
+"use client";
+
+import * as React from "react";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+import * as RechartsPrimitive from "recharts";
+import { ExternalLink } from "lucide-react";
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-xl border bg-card text-card-foreground shadow",
+      className
+    )}
+    {...props}
+  />
+));
+Card.displayName = "Card";
+
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+));
+CardContent.displayName = "CardContent";
+
+// Chart related components and types
+const THEMES = { light: "", dark: ".dark" } as const;
+
+export type ChartConfig = {
+  [k in string]: {
+    label?: React.ReactNode;
+    icon?: React.ComponentType;
+  } & (
+    | { color?: string; theme?: never }
+    | { color?: never; theme: Record<keyof typeof THEMES, string> }
+  );
+};
+
+type ChartContextProps = {
+  config: ChartConfig;
+};
+
+const ChartContext = React.createContext<ChartContextProps | null>(null);
+
+function useChart() {
+  const context = React.useContext(ChartContext);
+
+  if (!context) {
+    throw new Error("useChart must be used within a <ChartContainer />");
+  }
+
+  return context;
+}
+
+const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
+  const colorConfig = Object.entries(config).filter(
+    ([, config]) => config.theme || config.color
+  );
+
+  if (!colorConfig.length) {
+    return null;
+  }
+
+  return (
+    <style
+      dangerouslySetInnerHTML={{
+        __html: Object.entries(THEMES)
+          .map(
+            ([theme, prefix]) => `
+${prefix} [data-chart=${id}] {
+${colorConfig
+  .map(([key, itemConfig]) => {
+    const color =
+      itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
+      itemConfig.color;
+    return color ? `  --color-${key}: ${color};` : null;
+  })
+  .join("\n")}
+}
+`
+          )
+          .join("\n"),
+      }}
+    />
+  );
+};
+
+function ChartContainer({
+  id,
+  className,
+  children,
+  config,
+  ...props
+}: React.ComponentProps<"div"> & {
+  config: ChartConfig;
+  children: React.ComponentProps<
+    typeof RechartsPrimitive.ResponsiveContainer
+  >["children"];
+}) {
+  const uniqueId = React.useId();
+  const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
+
+  return (
+    <ChartContext.Provider value={{ config }}>
+      <div
+        data-slot="chart"
+        data-chart={chartId}
+        className={cn(
+          "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border flex aspect-video justify-center text-xs [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
+          className
+        )}
+        {...props}
+      >
+        <ChartStyle id={chartId} config={config} />
+        <RechartsPrimitive.ResponsiveContainer>
+          {children}
+        </RechartsPrimitive.ResponsiveContainer>
+      </div>
+    </ChartContext.Provider>
+  );
+}
+
+const data = [
+  {
+    date: "Nov 24, 2023",
+    "Alpha Corp": 142.87,
+    "Beta Solutions": 65.32,
+    "Gamma Industries": 83.25,
+  },
+  {
+    date: "Nov 25, 2023",
+    "Alpha Corp": 151.43,
+    "Beta Solutions": 59.78,
+    "Gamma Industries": 79.64,
+  },
+  {
+    date: "Nov 26, 2023",
+    "Alpha Corp": 157.28,
+    "Beta Solutions": 64.21,
+    "Gamma Industries": 76.19,
+  },
+  {
+    date: "Nov 27, 2023",
+    "Alpha Corp": 162.94,
+    "Beta Solutions": 57.46,
+    "Gamma Industries": 72.84,
+  },
+  {
+    date: "Nov 28, 2023",
+    "Alpha Corp": 148.37,
+    "Beta Solutions": 49.82,
+    "Gamma Industries": 81.56,
+  },
+  {
+    date: "Nov 29, 2023",
+    "Alpha Corp": 139.56,
+    "Beta Solutions": 55.63,
+    "Gamma Industries": 92.38,
+  },
+  {
+    date: "Nov 30, 2023",
+    "Alpha Corp": 145.83,
+    "Beta Solutions": 61.27,
+    "Gamma Industries": 88.75,
+  },
+  {
+    date: "Dec 01, 2023",
+    "Alpha Corp": 138.29,
+    "Beta Solutions": 68.94,
+    "Gamma Industries": 93.42,
+  },
+  {
+    date: "Dec 02, 2023",
+    "Alpha Corp": 129.64,
+    "Beta Solutions": 74.56,
+    "Gamma Industries": 97.18,
+  },
+  {
+    date: "Dec 03, 2023",
+    "Alpha Corp": 119.82,
+    "Beta Solutions": 71.38,
+    "Gamma Industries": 89.43,
+  },
+  {
+    date: "Dec 04, 2023",
+    "Alpha Corp": 128.54,
+    "Beta Solutions": 63.95,
+    "Gamma Industries": 92.76,
+  },
+  {
+    date: "Dec 05, 2023",
+    "Alpha Corp": 137.21,
+    "Beta Solutions": 58.47,
+    "Gamma Industries": 84.29,
+  },
+  {
+    date: "Dec 06, 2023",
+    "Alpha Corp": 134.68,
+    "Beta Solutions": 69.12,
+    "Gamma Industries": 79.38,
+  },
+  {
+    date: "Dec 07, 2023",
+    "Alpha Corp": 152.73,
+    "Beta Solutions": 73.89,
+    "Gamma Industries": 81.42,
+  },
+  {
+    date: "Dec 08, 2023",
+    "Alpha Corp": 168.59,
+    "Beta Solutions": 78.54,
+    "Gamma Industries": 75.68,
+  },
+];
+
+const summary = [
+  {
+    name: "Alpha Corp",
+    tickerSymbol: "ACP",
+    value: "$168.59",
+    change: "+15.86",
+    percentageChange: "+10.4%",
+    changeType: "positive",
+  },
+  {
+    name: "Beta Solutions",
+    tickerSymbol: "BTS",
+    value: "$78.54",
+    change: "+4.65",
+    percentageChange: "+6.3%",
+    changeType: "positive",
+  },
+  {
+    name: "Gamma Industries",
+    tickerSymbol: "GMI",
+    value: "$75.68",
+    change: "-5.74",
+    percentageChange: "-7.1%",
+    changeType: "negative",
+  },
+];
+
+const sanitizeName = (name: string) => {
+  return name
+    .replace(/\\s+/g, "-")
+    .replace(/[^a-zA-Z0-9-]/g, "_")
+    .toLowerCase();
+};
+
+export default function Stats10() {
+  return (
+    <div className="flex items-center justify-center p-10 w-full">
+      <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full">
+        {summary.map((item) => {
+          const sanitizedName = sanitizeName(item.name);
+          const gradientId = `gradient-${sanitizedName}`;
+
+          const color =
+            item.changeType === "positive"
+              ? "hsl(142.1 76.2% 36.3%)"
+              : "hsl(0 72.2% 50.6%)";
+
+          return (
+            <Card key={item.name} className="p-0">
+              <CardContent className="p-4 pb-0">
+                <div>
+                  <dt className="text-sm font-medium text-foreground">
+                    {item.name}{" "}
+                    <span className="font-normal text-muted-foreground">
+                      ({item.tickerSymbol})
+                    </span>
+                  </dt>
+                  <div className="flex items-baseline justify-between">
+                    <dd
+                      className={cn(
+                        item.changeType === "positive"
+                          ? "text-green-600 dark:text-green-500"
+                          : "text-red-600 dark:text-red-500",
+                        "text-lg font-semibold"
+                      )}
+                    >
+                      {item.value}
+                    </dd>
+                    <dd className="flex items-center space-x-1 text-sm">
+                      <span className="font-medium text-foreground">
+                        {item.change}
+                      </span>
+                      <span
+                        className={cn(
+                          item.changeType === "positive"
+                            ? "text-green-600 dark:text-green-500"
+                            : "text-red-600 dark:text-red-500"
+                        )}
+                      >
+                        ({item.percentageChange})
+                      </span>
+                    </dd>
+                  </div>
+                </div>
+
+                <div className="mt-2 h-16 overflow-hidden">
+                  <ChartContainer
+                    className="w-full h-full"
+                    config={{
+                      [item.name]: {
+                        label: item.name,
+                        color: color,
+                      },
+                    }}
+                  >
+                    <RechartsPrimitive.AreaChart data={data}>
+                      <defs>
+                        <linearGradient
+                          id={gradientId}
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor={color}
+                            stopOpacity={0.3}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor={color}
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <RechartsPrimitive.XAxis dataKey="date" hide={true} />
+                      <RechartsPrimitive.Area
+                        dataKey={item.name}
+                        stroke={color}
+                        fill={`url(#${gradientId})`}
+                        fillOpacity={0.4}
+                        strokeWidth={1.5}
+                        type="monotone"
+                      />
+                    </RechartsPrimitive.AreaChart>
+                  </ChartContainer>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </dl>
+    </div>
+  );
+}
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/stats-cards-with-links.tsx
+"use client";
+
+import * as React from "react";
+
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card"
+      className={cn(
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        className
+      )}
+      {...props}
+    />
+  )
+);
+Card.displayName = "Card";
+
+interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-header"
+      className={cn(
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
+        className
+      )}
+      {...props}
+    />
+  )
+);
+CardHeader.displayName = "CardHeader";
+
+interface CardTitleProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardTitle = React.forwardRef<HTMLDivElement, CardTitleProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-title"
+      className={cn("leading-none font-semibold", className)}
+      {...props}
+    />
+  )
+);
+CardTitle.displayName = "CardTitle";
+
+interface CardDescriptionProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardDescription = React.forwardRef<HTMLDivElement, CardDescriptionProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-description"
+      className={cn("text-muted-foreground text-sm", className)}
+      {...props}
+    />
+  )
+);
+CardDescription.displayName = "CardDescription";
+
+interface CardActionProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardAction = React.forwardRef<HTMLDivElement, CardActionProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-action"
+      className={cn(
+        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
+        className
+      )}
+      {...props}
+    />
+  )
+);
+CardAction.displayName = "CardAction";
+
+interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-content"
+      className={cn("px-6", className)}
+      {...props}
+    />
+  )
+);
+CardContent.displayName = "CardContent";
+
+interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card-footer"
+      className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
+      {...props}
+    />
+  )
+);
+CardFooter.displayName = "CardFooter";
+
+const data = [
+  {
+    name: "Monthly recurring revenue",
+    value: "$34.1K",
+    change: "+6.1%",
+    changeType: "positive",
+    href: "#",
+  },
+  {
+    name: "Users",
+    value: "500.1K",
+    change: "+19.2%",
+    changeType: "positive",
+    href: "#",
+  },
+  {
+    name: "User growth",
+    value: "11.3%",
+    change: "-1.2%",
+    changeType: "negative",
+    href: "#",
+  },
+];
+
+export default function Stats05() {
+  return (
+    <div className="flex items-center justify-center p-10 w-full">
+      <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full">
+        {data.map((item) => (
+          <Card key={item.name} className="p-0 gap-0">
+            <CardContent className="p-6">
+              <dd className="flex items-start justify-between space-x-2">
+                <span className="truncate text-sm text-muted-foreground">
+                  {item.name}
+                </span>
+                <span
+                  className={cn(
+                    "text-sm font-medium",
+                    item.changeType === "positive"
+                      ? "text-emerald-700 dark:text-emerald-500"
+                      : "text-red-700 dark:text-red-500"
+                  )}
+                >
+                  {item.change}
+                </span>
+              </dd>
+              <dd className="mt-1 text-3xl font-semibold text-foreground">
+                {item.value}
+              </dd>
+            </CardContent>
+            <CardFooter className="flex justify-end border-t border-border !p-0">
+              <a
+                href={item.href}
+                className="px-6 py-3 text-sm font-medium text-primary hover:text-primary/90"
+              >
+                View more →
+              </a>
+            </CardFooter>
+          </Card>
+        ))}
+      </dl>
+    </div>
+  );
+}
+```
+
+Install NPM dependencies:
+```bash
+clsx, tailwind-merge
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.

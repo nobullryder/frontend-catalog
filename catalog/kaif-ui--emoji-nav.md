@@ -1,0 +1,225 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+emoji-nav.tsx
+// get animated emogies from: https://googlefonts.github.io/noto-emoji-animation/
+// Visit https://kaif-ui.vercel.app/ for components like this
+ 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import Link from "next/link";
+import Image from "next/image";
+ 
+type NavItem = {
+  label: string;
+  href: string;
+  emogi: string;
+  alt: string;
+};
+ 
+type EmogiNavProps = {
+  navItems: NavItem[];
+};
+ 
+const EmogiNav: React.FC<EmogiNavProps> = ({ navItems }) => {
+  return (
+    <div className="fixed top-5 left-[50%] -translate-x-[50%] z-[10000] w-full sm:w-max">
+      <div className="border px-5 py-2 rounded-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <nav>
+          <div className="flex items-center justify-center space-x-6">
+            {navItems.map((item) => (
+              <div key={item.href}>
+                <TooltipProvider>
+                  <Tooltip delayDuration={0}>
+                    <TooltipTrigger asChild>
+                      <Link href={item.href}>
+                        <Image
+                          src={item.emogi}
+                          alt={item.alt}
+                          width={48}
+                          height={48}
+                        />
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent className="z-[11000]">
+                      <p>{item.label}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            ))}
+          </div>
+        </nav>
+      </div>
+    </div>
+  );
+};
+ 
+export default EmogiNav;
+
+code.demo.1750166794874.tsx
+import EmogiNav from "@/components/ui/emoji-nav";
+ 
+// get animated emogies from: https://googlefonts.github.io/noto-emoji-animation/
+ 
+const navItems = [
+{
+label: "Home",
+href: "#",
+emogi: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/512.gif",
+alt: "😍",
+},
+{
+label: "About",
+href: "#",
+emogi: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f604/512.gif",
+alt: "😄",
+},
+{
+label: "Work",
+href: "#",
+emogi: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f618/512.gif",
+alt: "😘",
+},
+{
+label: "Services",
+href: "#",
+emogi: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f911/512.gif",
+alt: "🤑",
+},
+{
+label: "Our Team",
+href: "#",
+emogi: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f973/512.gif",
+alt: "🥳",
+},
+{
+label: "Contact",
+href: "#",
+emogi: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f47b/512.gif",
+alt: "👻",
+},
+];
+ 
+const EmogiNavigation: React.FC = () => {
+return (
+ 
+<div>
+<EmogiNav navItems={navItems} />
+ 
+      <div className="preview flex min-h-[100px] w-full justify-center p-2 sm:p-10 items-center">
+        <div className="relative w-full flex items-center justify-center">
+          <p className="text-black dark:text-white">
+            The Navbar will show on top of the page
+          </p>
+        </div>
+      </div>
+    </div>
+ 
+);
+};
+ 
+export default EmogiNavigation;
+```
+
+Copy-paste these files for dependencies:
+```tsx
+src/components/ui/emoji-nav.tsx
+// get animated emogies from: https://googlefonts.github.io/noto-emoji-animation/
+// Visit https://kaif-ui.vercel.app/ for components like this
+ 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import Link from "next/link";
+import Image from "next/image";
+ 
+type NavItem = {
+  label: string;
+  href: string;
+  emogi: string;
+  alt: string;
+};
+ 
+type EmogiNavProps = {
+  navItems: NavItem[];
+};
+ 
+const EmogiNav: React.FC<EmogiNavProps> = ({ navItems }) => {
+  return (
+    <div className="fixed top-5 left-[50%] -translate-x-[50%] z-[10000] w-full sm:w-max">
+      <div className="border px-5 py-2 rounded-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <nav>
+          <div className="flex items-center justify-center space-x-6">
+            {navItems.map((item) => (
+              <div key={item.href}>
+                <TooltipProvider>
+                  <Tooltip delayDuration={0}>
+                    <TooltipTrigger asChild>
+                      <Link href={item.href}>
+                        <Image
+                          src={item.emogi}
+                          alt={item.alt}
+                          width={48}
+                          height={48}
+                        />
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent className="z-[11000]">
+                      <p>{item.label}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            ))}
+          </div>
+        </nav>
+      </div>
+    </div>
+  );
+};
+ 
+export default EmogiNav;
+```
+
+Install NPM dependencies:
+```bash
+next
+```
+
+Implementation Guidelines
+1. Analyze the component structure and identify all required dependencies
+2. Review the component's argumens and state
+3. Identify any required context providers or hooks and install them
+4. Questions to Ask
+- What data/props will be passed to this component?
+- Are there any specific state management requirements?
+- Are there any required assets (images, icons, etc.)?
+- What is the expected responsive behavior?
+- What is the best place to use this component in the app?
+
+Steps to integrate
+0. Copy paste all the code above in the correct directories
+1. Install external dependencies
+2. Fill image assets with Unsplash stock images you know exist
+3. Use lucide-react icons for svgs or logos if component requires them
+
+Remember: Do not change the component's code unless it's required to integrate or the user asks you to.
+IMPORTANT: Create all mentioned files in full, without abbreviations. Do not use placeholders like "insert the rest of the code here" – output every line of code exactly as it is, so it can be copied and pasted directly into the project.
